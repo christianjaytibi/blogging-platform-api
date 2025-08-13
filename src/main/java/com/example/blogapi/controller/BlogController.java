@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.blogapi.model.Blog;
-import com.example.blogapi.model.CreateBlogDto;
+import com.example.blogapi.model.BlogCreateDto;
 import com.example.blogapi.service.BlogService;
 
 import java.net.URI;
@@ -38,7 +38,7 @@ public class BlogController {
     }
 
     @PostMapping
-    public ResponseEntity<Blog> createBlog(@RequestBody CreateBlogDto blogDto) {
+    public ResponseEntity<Blog> createBlog(@RequestBody BlogCreateDto blogDto) {
         Blog blog = blogService.createBlog(blogDto);
         URI locationOfSavedBlog = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class CreateBlogDto {
+public class BlogCreateDto {
     private String title;
     private String content;
     private String category;

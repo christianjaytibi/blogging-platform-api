@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.example.blogapi.model.Blog;
-import com.example.blogapi.model.CreateBlogDto;
+import com.example.blogapi.model.BlogCreateDto;
 import com.example.blogapi.model.Tag;
 import com.example.blogapi.repository.BlogRepository;
 import com.example.blogapi.repository.TagRepository;
@@ -27,7 +27,7 @@ public class BlogService {
         return blogRepository.findById(id);
     }
 
-    public Blog createBlog(CreateBlogDto blogDto) {
+    public Blog createBlog(BlogCreateDto blogDto) {
         Blog newBlog = new Blog();
         newBlog.setTitle(blogDto.getTitle());
         newBlog.setContent(blogDto.getContent());
