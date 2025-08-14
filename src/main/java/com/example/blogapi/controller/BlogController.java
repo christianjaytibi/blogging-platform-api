@@ -11,7 +11,6 @@ import com.example.blogapi.service.BlogService;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,12 +40,8 @@ public class BlogController {
 
     @GetMapping("{id}")
     public ResponseEntity<Blog> getBlog(@PathVariable Long id) {
-        Optional<Blog> blog = blogService.getBlogById(id);
-        if (!blog.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(blog.get());
+        Blog blog = blogService.getBlogById(id);
+        return ResponseEntity.ok(blog);
     }
 
     @PostMapping

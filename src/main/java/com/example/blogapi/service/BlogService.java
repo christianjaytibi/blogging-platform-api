@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.example.blogapi.exception.BlogNotFoundException;
 import com.example.blogapi.model.Blog;
 import com.example.blogapi.model.BlogCreateDto;
 import com.example.blogapi.model.Tag;
@@ -32,8 +33,13 @@ public class BlogService {
         return blogRepository.findBlogsByTerm(term);
     }
 
-    public Optional<Blog> getBlogById(Long id) {
-        return blogRepository.findById(id);
+    public Blog getBlogById(Long id) {
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+        if (blogOptional.isPresent()) {
+            return blogOptional.get();
+        }
+
+        throw new BlogNotFoundException();
     }
 
     public Blog createBlog(BlogCreateDto blogDto) {
@@ -61,10 +67,12 @@ public class BlogService {
     }
 
     public void deleteBlogById(Long id) {
-        Optional<Blog> blog = blogRepository.findById(id);
-        if (blog.isPresent()) {
-            blogRepository.deleteById(id);
+        Optional<Blog> blogOptional = blogRepository.findById(id);
+        if (!blogOptional.isPresent()) {
+            throw new BlogNotFoundException();
         }
+
+        blogRepository.deleteById(id);
     }
 
 }
