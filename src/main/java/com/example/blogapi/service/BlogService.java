@@ -1,6 +1,7 @@
 package com.example.blogapi.service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,6 +22,14 @@ public class BlogService {
     public BlogService(BlogRepository blogRepository, TagRepository tagRepository) {
         this.blogRepository = blogRepository;
         this.tagRepository = tagRepository;
+    }
+
+    public List<Blog> getAllBlogs() {
+        return blogRepository.findAll();
+    }
+
+    public List<Blog> getBlogsByTerm(String term) {
+        return blogRepository.findBlogsByTerm(term);
     }
 
     public Optional<Blog> getBlogById(Long id) {
@@ -49,6 +58,13 @@ public class BlogService {
         newBlog.setUpdatedAt(now);
 
         return blogRepository.save(newBlog);
+    }
+
+    public void deleteBlogById(Long id) {
+        Optional<Blog> blog = blogRepository.findById(id);
+        if (blog.isPresent()) {
+            blogRepository.deleteById(id);
+        }
     }
 
 }
