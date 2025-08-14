@@ -1,6 +1,6 @@
 package com.example.blogapi.service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,7 +44,7 @@ public class BlogService {
             }
         }
 
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         newBlog.setCreatedAt(now);
         newBlog.setUpdatedAt(now);
 

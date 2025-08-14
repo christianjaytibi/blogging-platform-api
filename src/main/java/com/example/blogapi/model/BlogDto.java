@@ -1,6 +1,6 @@
 package com.example.blogapi.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +16,6 @@ public class BlogDto {
     private String content;
     private String category;
     private Set<String> tags;
-    LocalDateTime createdAt;
-    LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

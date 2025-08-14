@@ -1,6 +1,6 @@
 package com.example.blogapi.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +41,8 @@ public class Blog {
     private Set<Tag> tags = new HashSet<>();
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }
