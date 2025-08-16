@@ -20,5 +20,5 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
                 OR LOWER(b.category) LIKE LOWER(CONCAT('%', :term, '%'))
                 OR LOWER(t.name) LIKE LOWER(CONCAT('%', :term, '%'))
             """)
-    List<Blog> findBlogsByTerm(@Param("term") String term);
+    List<Blog> findByTitleOrCategoryOrTagsContaining(@Param("term") String term);
 }

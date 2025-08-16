@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.blogapi.model.Blog;
-import com.example.blogapi.model.BlogCreateDto;
+import com.example.blogapi.model.BlogResponseDto;
+import com.example.blogapi.model.CreateBlogRequestDTO;
 import com.example.blogapi.service.BlogService;
 
 import java.net.URI;
@@ -30,23 +30,23 @@ public class BlogController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Blog>> getBlogs(@RequestParam(required = false) String term) {
+    public ResponseEntity<List<BlogResponseDto>> getBlogs(@RequestParam(required = false) String term) {
         if (term == null || term.isEmpty()) {
             return ResponseEntity.ok(blogService.getAllBlogs());
         }
 
-        return ResponseEntity.ok(blogService.getBlogsByTerm(term));
+        return ResponseEntity.ok(blogService.getAllBlogs(term));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Blog> getBlog(@PathVariable Long id) {
-        Blog blog = blogService.getBlogById(id);
+    public ResponseEntity<BlogResponseDto> getBlog(@PathVariable Long id) {
+        BlogResponseDto blog = blogService.getBlogById(id);
         return ResponseEntity.ok(blog);
     }
 
     @PostMapping
-    public ResponseEntity<Blog> createBlog(@RequestBody BlogCreateDto blogDto) {
-        Blog blog = blogService.createBlog(blogDto);
+    public ResponseEntity<BlogResponseDto> createBlog(@RequestBody CreateBlogRequestDTO blogDto) {
+        BlogResponseDto blog = blogService.createBlog(blogDto);
         URI locationOfSavedBlog = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
