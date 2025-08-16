@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/blogs")
@@ -38,7 +39,7 @@ public class BlogController {
         return ResponseEntity.ok(blogService.getAllBlogs(term));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BlogResponseDto> getBlog(@PathVariable Long id) {
         BlogResponseDto blog = blogService.getBlogById(id);
         return ResponseEntity.ok(blog);
@@ -55,10 +56,16 @@ public class BlogController {
         return ResponseEntity.created(locationOfSavedBlog).body(blog);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlog(@PathVariable Long id) {
         blogService.deleteBlogById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<BlogResponseDto> putMethodName(@PathVariable Long id,
+            @RequestBody CreateBlogRequestDTO blogDto) {
+        BlogResponseDto updatedBlog = blogService.updateBlog(id, blogDto);
+        return ResponseEntity.ok(updatedBlog);
+    }
 }

@@ -49,18 +49,18 @@ public class BlogService {
         throw new BlogNotFoundException();
     }
 
-    public BlogResponseDto createBlog(CreateBlogRequestDTO blogDto) {
+    public BlogResponseDto createBlog(CreateBlogRequestDTO blogRequest) {
         Blog newBlog = new Blog();
-        newBlog.setTitle(blogDto.getTitle());
-        newBlog.setContent(blogDto.getContent());
-        newBlog.setCategory(blogDto.getCategory());
+        newBlog.setTitle(blogRequest.getTitle());
+        newBlog.setContent(blogRequest.getContent());
+        newBlog.setCategory(blogRequest.getCategory());
 
-        Set<String> blogDtoTags = blogDto.getTags();
-        if (blogDtoTags != null && !blogDtoTags.isEmpty()) {
-            for (String name : blogDtoTags) {
-                Tag tag = tagRepository.findByName(name)
+        Set<String> blogRequestTags = blogRequest.getTags();
+        if (blogRequestTags != null && !blogRequestTags.isEmpty()) {
+            for (String tagName : blogRequestTags) {
+                Tag tag = tagRepository.findByNameIgnoreCase(tagName)
                         .orElseGet(
-                                () -> tagRepository.save(new Tag(name)));
+                                () -> tagRepository.save(new Tag(tagName)));
 
                 newBlog.getTags().add(tag);
             }
@@ -83,4 +83,28 @@ public class BlogService {
         blogRepository.deleteById(id);
     }
 
+    public BlogResponseDto updateBlog(Long id, CreateBlogRequestDTO blogRequest) {
+        Blog blogToUpdate = blogRepository.findById(id)
+                .orElseThrow(() -> new BlogNotFoundException());
+
+        blogToUpdate.setTitle(blogRequest.getTitle());
+        blogToUpdate.setContent(blogRequest.getContent());
+        blogToUpdate.setCategory(blogRequest.getCategory());
+        blogToUpdate.getTags().clear();
+
+        Set<String> blogRequestTags = blogRequest.getTags();
+        if (blogRequestTags != null && !blogRequestTags.isEmpty()) {
+            for (String tagName : blogRequestTags) {
+                Tag tag = tagRepository.findByNameIgnoreCase(tagName)
+                        .orElseGet(
+                                () -> tagRepository.save(new Tag(tagName)));
+
+                blogToUpdate.getTags().add(tag);
+            }
+        }
+
+        blogToUpdate.setUpdatedAt(Instant.now());
+        return new BlogResponseDto(
+                blogRepository.save(blogToUpdate));
+    }
 }
