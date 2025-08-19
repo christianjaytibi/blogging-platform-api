@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +31,7 @@ public class Blog {
 
     private String title;
 
+    @NotNull(message = "Content is required")
     @Column(nullable = false)
     private String content;
 
@@ -45,4 +47,8 @@ public class Blog {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    public void setTitle(String title) {
+        this.title = title != null ? title : "Untitled Blog";
+    }
 }
